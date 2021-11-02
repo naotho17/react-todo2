@@ -1,0 +1,17 @@
+.incomplete-area {
+  width: 500px;
+  height: 400px;
+  background-color: rgb(243, 230, 238);
+}
+.complete-area {
+  width: 500px;
+  height: 400px;
+  background-color: rgb(227, 230, 230);
+}
+
+.li {
+  float: left;
+}
+button {
+  margin-left: 10px;
+}
