@@ -9,9 +9,10 @@
   background-color: rgb(227, 230, 230);
 }
 
-.li {
-  float: left;
+.list-wrapper {
+  display: flex;
 }
+
 button {
   margin-left: 10px;
 }
