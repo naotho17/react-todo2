@@ -4,8 +4,8 @@ import "./styles.css";
 export const App = () => {
   //state
   const [inputText, setInputText] = useState("");
-  const [incompleteTodos, setIncompleteTodos] = useState(["未完了のTodo"]);
-  const [completeTodos, setCompleteTodos] = useState(["完了したTodo"]);
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
+  const [completeTodos, setCompleteTodos] = useState([]);
 
   // inputエリアのonChange
   const onChangeText = (e) => {
@@ -20,7 +20,7 @@ export const App = () => {
     // inputエリアに入力、追加後またボックスを空にするため
     setInputText("");
   };
-  //削除ボタンの処理
+  //削除ボタンの処理（未完了のタスク）
   const onclickDelete = (index) => {
     const newTodos = [...incompleteTodos];
     // 「spliceメソッド」ででindex番目の要素を1つ削除する↓
@@ -29,14 +29,35 @@ export const App = () => {
   };
   // 完了ボタンの処理
   const onClickComplete = (index) => {
-    // 完了ボタンを押すと未完了のタスクの欄からは要素を削除するので、以下。(onclickDeleteのとこと同じ処理)
+    // ①未完了のタスクから要素を削除するので、以下。(onclickDeleteのとこと同じ処理)
     const newIncompleteTodos = [...incompleteTodos];
     newIncompleteTodos.splice(index, 1);
-
-    // 完了のタスクの欄の後ろに追加されていくTodoたち
+    // ②完了のタスクに追加していく
     const newCompleteTodos = [...completeTodos, incompleteTodos[index]];
+    // ③更新
     setIncompleteTodos(newIncompleteTodos);
     setCompleteTodos(newCompleteTodos);
+  };
+
+  //削除ボタンの処理（完了のタスク）
+  const onClickDone = (index) => {
+    alert("本当に削除しますか？");
+    const newCompleteTodos = [...completeTodos];
+    newCompleteTodos.splice(index, 1);
+    setCompleteTodos(newCompleteTodos);
+  };
+
+  // 戻すボタンの処理
+  const onClickReturn = (index) => {
+    //①完了したタスクから削除
+    const newCompleteTodos = [...completeTodos];
+    newCompleteTodos.splice(index, 1);
+    setCompleteTodos(newCompleteTodos);
+    //②未完了のタスクに追加
+    const newIncompleteTodos = [...incompleteTodos, completeTodos[index]];
+    // ③更新
+    setCompleteTodos(newCompleteTodos);
+    setIncompleteTodos(newIncompleteTodos);
   };
 
   //
@@ -79,8 +100,8 @@ export const App = () => {
             return (
               <div key={todo} className="list-wrapper">
                 <li>{todo}</li>
-                <button>戻す</button>
-                <button>削除</button>
+                <button onClick={() => onClickReturn(index)}>戻す</button>
+                <button onClick={() => onClickDone(index)}>削除</button>
               </div>
             );
           })}
